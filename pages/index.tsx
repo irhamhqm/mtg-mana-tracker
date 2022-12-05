@@ -3,8 +3,8 @@ import { useMemo, useReducer } from 'react'
 import Mana from '../components/Mana'
 import styles from '../styles/Home.module.css'
 
-type wubrg = 'w' | 'u' | 'b' | 'r' | 'g';
-type mana = 'white' | 'blue' | 'black' | 'red' | 'green';
+type wubrg = 'w' | 'u' | 'b' | 'r' | 'g' | 'c' | 'all';
+type mana = 'white' | 'blue' | 'black' | 'red' | 'green' | 'colorless';
 
 type StateType = {
   [id: string]: {
@@ -44,6 +44,11 @@ const initialState: StateType = {
   g: {
     name: 'g',
     image: 'green',
+    counter: 0
+  },
+  c: {
+    name: 'c',
+    image: 'colorless',
     counter: 0
   }
 };
@@ -87,11 +92,8 @@ const reducer = (state: StateType, action: ActionType) => {
           counter: 0
         }
       };
-    // case 'reset':
-    //   if (action.payload) {
-    //     return init(action.payload);
-    //   }
-    //   return state;
+    case 'reset':
+      return initialState;
     default:
       throw new Error('unexpected action type');
   }
@@ -121,6 +123,11 @@ export default function Home() {
             handleSet={(value: number) => dispatch({ type: 'set', name: mana.name, payload: value})}
           />
         ))}
+      </div>
+      <div className="flex">
+        <button className="mt-8 mx-auto text-lg text-bold" onClick={() => dispatch({ type: 'reset', name: 'all' })}>
+          Reset
+        </button>
       </div>
     </div>
   )
